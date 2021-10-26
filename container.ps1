@@ -1,6 +1,7 @@
 param (
 	[switch]$dev,
-	[switch]$test
+	[switch]$test,
+	[switch]$clean
 )
 
 if ($dev) {
@@ -11,4 +12,9 @@ if ($dev) {
 if ($test) {
 	docker build -t test --target test .
 	docker run -i test
+}
+
+if ($clean) {
+	docker container prune
+	docker image prune
 }

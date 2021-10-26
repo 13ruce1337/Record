@@ -9,6 +9,7 @@ main.o: test.o
 	@echo "=== Building application... ==="
 	$(CC) $(CF) ./src/main.cpp
 	$(CC) main.o -o ./bin/TDND
+	@echo "=== Build complete ==="
 
 test.o:
 	@echo "=== Compiling tests... ==="

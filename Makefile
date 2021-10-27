@@ -13,8 +13,8 @@ main.o: test.o
 
 test.o:
 	@echo "=== Compiling tests... ==="
-	$(CC) $(CF) ./tests/record_test.cpp
-	$(CC) record_test.o -o ./tests/TDND
+	$(CC) $(CF) ./tests/TDNDtest.cpp
+	$(CC) TDNDtest.o -o ./tests/TDND
 
 clean:
 	@echo "=== Uninstall application... ==="

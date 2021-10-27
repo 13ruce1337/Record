@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <ctime>
-#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -16,13 +15,13 @@ class Message {
 private:
 	tm* timestamp;
 	char tstr[50];
-public:
 	const char* body = NULL;
+public:
 	const char* record = "/tmp/record.log";
-
 	struct tm* settime(void);
 	char* gettime(void);
 	void setbody(const char* m);
+	const char* getbody(void);
 	void makerecord(void);
 };
 
@@ -33,8 +32,8 @@ struct tm* Message::settime() {
 	timestamp = p;
 }
 
-// gets the timestamp for a message then parses the data
-char* Message::gettime() {
+// gets the timestamp from a message then parses the data
+char* Message::gettime() { q
 	strftime(tstr, 50, "%A, %B %d %Y %H:%M:%S", timestamp);
 	return tstr;
 }
@@ -42,9 +41,15 @@ char* Message::gettime() {
 // sets the body of the message
 void Message::setbody(const char* m) {
 	Message::settime();
-	body = m;
+	Message::body = m;
 }
 
+// gets the body of the message
+const char* Message::getbody() {
+	return Message::body;
+}
+
+// creates a file (record) and appends the message
 void Message::makerecord() {
 	ofstream record;
 	record.open(Message::record, std::ios_base::app);
@@ -56,6 +61,6 @@ void Message::makerecord() {
 void record(const char* message) {
 	Message msg;
 	msg.setbody(message);
-	printf("%s: %s \n", msg.gettime(), msg.body);
+	printf("%s: %s \n", msg.gettime(), msg.getbody());
 	msg.makerecord();
 }

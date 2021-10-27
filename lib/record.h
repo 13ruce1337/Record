@@ -7,51 +7,60 @@
 
 #include <iostream>
 #include <ctime>
-#include <iostream>
 #include <fstream>
 
 using namespace std;
 
 class Message {
 private:
-	tm timestamp;
+	tm* timestamp;
+	char tstr[50];
+	const char* body = NULL;
 public:
-	const char* body=NULL;
 	const char* record = "/tmp/record.log";
-
-	struct tm settime(void);
-	struct tm gettime(void);
+	struct tm* settime(void);
+	char* gettime(void);
 	void setbody(const char* m);
+	const char* getbody(void);
+	void makerecord(void);
 };
 
 // sets the timestamp for the message
-struct tm Message::settime() {
-	//char s[200];
+struct tm* Message::settime() {
 	time_t now = time(NULL);
 	struct tm* p = localtime(&now);
-	//timestamp = strftime(s, 200, "%A, %B %d %Y %H:%M:%S", p);
-	return p;
+	timestamp = p;
 }
 
-struct tm Message::gettime() {
-	return timestamp;
+// gets the timestamp from a message then parses the data
+char* Message::gettime() { q
+	strftime(tstr, 50, "%A, %B %d %Y %H:%M:%S", timestamp);
+	return tstr;
 }
 
 // sets the body of the message
 void Message::setbody(const char* m) {
 	Message::settime();
-	body = m;
+	Message::body = m;
+}
+
+// gets the body of the message
+const char* Message::getbody() {
+	return Message::body;
+}
+
+// creates a file (record) and appends the message
+void Message::makerecord() {
+	ofstream record;
+	record.open(Message::record, std::ios_base::app);
+	record << Message::gettime() << ": " << Message::body << "\n";
+	record.close();
 }
 
 // main function to create a message
 void record(const char* message) {
 	Message msg;
-	ofstream record;
-
 	msg.setbody(message);
-	printf("%i: %s", msg.gettime(), message);
-
-	//record.open(msg.record, std::ios_base::app);
-	//record << msg.gettime() << ": " << msg.body << "\n";
-	//record.close();	
+	printf("%s: %s \n", msg.gettime(), msg.getbody());
+	msg.makerecord();
 }

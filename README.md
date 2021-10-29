@@ -1,2 +1,3 @@
-# TDND
- 
+# Record
+
+Library for recording logs.
